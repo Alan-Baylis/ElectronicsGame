@@ -106,17 +106,17 @@ public class RPGCharacterControllerFREE : MonoBehaviour{
 	}
 
 	void Inputs(){
-		inputDashHorizontal = Input.GetAxisRaw("DashHorizontal");
-		inputDashVertical = Input.GetAxisRaw("DashVertical");
+		//inputDashHorizontal = Input.GetAxisRaw("DashHorizontal");
+		//inputDashVertical = Input.GetAxisRaw("DashVertical");
 		inputHorizontal = Input.GetAxisRaw("Horizontal");
 		inputVertical = Input.GetAxisRaw("Vertical");
-		inputLightHit = Input.GetButtonDown("LightHit");
-		inputDeath = Input.GetButtonDown("Death");
-		inputAttackL = Input.GetButtonDown("AttackL");
-		inputAttackR = Input.GetButtonDown("AttackR");
-		inputCastL = Input.GetButtonDown("CastL");
-		inputCastR = Input.GetButtonDown("CastR");
-		inputBlock = Input.GetAxisRaw("TargetBlock");
+		//inputLightHit = Input.GetButtonDown("LightHit");
+		//inputDeath = Input.GetButtonDown("Death");
+		//inputAttackL = Input.GetButtonDown("AttackL");
+		//inputAttackR = Input.GetButtonDown("AttackR");
+		//inputCastL = Input.GetButtonDown("CastL");
+		//inputCastR = Input.GetButtonDown("CastR");
+		//inputBlock = Input.GetAxisRaw("TargetBlock");
 		inputJump = Input.GetButtonDown("Jump");
 	}
 
@@ -131,57 +131,61 @@ public class RPGCharacterControllerFREE : MonoBehaviour{
 			if(canMove && !isDead && !useNavMesh){
 				CameraRelativeMovement();
 			} 
-			Rolling();
+			//Rolling();
 			Jumping();
-			if(inputLightHit && canAction && isGrounded){
-				GetHit();
-			}
-			if(inputDeath && canAction && isGrounded){
-				if(!isDead){
-					StartCoroutine(_Death());
-				}
-				else{
-					StartCoroutine(_Revive());
-				}
-			}
-			if(inputAttackL && canAction && isGrounded){
-				Attack(1);
-			}
-			if(inputAttackR && canAction && isGrounded){
-				Attack(2);
-			}
-			if(inputCastL && canAction && isGrounded && !isStrafing){
-				AttackKick(1);
-			}
-			if(inputCastR && canAction && isGrounded && !isStrafing){
-				AttackKick(2);
-			}
-			//if strafing
-			if((Input.GetKey(KeyCode.LeftShift) || inputBlock > 0.1f) && canAction){  
-				isStrafing = true;
-				animator.SetBool("Strafing", true);
-				if(inputCastL && canAction && isGrounded){
-					CastAttack(1);
-				}
-				if(inputCastR && canAction && isGrounded){
-					CastAttack(2);
-				}
-			}
-			else{
-				isStrafing = false;
-				animator.SetBool("Strafing", false);
-			}
-			//Navmesh
-			if(Input.GetMouseButtonDown(0))
-			{
-				if(useNavMesh)
-				{
-					RaycastHit hit;
-					if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100)) {
-						agent.destination = hit.point;
-					}
-				}
-			}
+			//if(inputLightHit && canAction && isGrounded){
+			//	GetHit();
+			//}
+			//if(inputDeath && canAction && isGrounded){
+			//	if(!isDead){
+			//		StartCoroutine(_Death());
+			//	}
+			//	else{
+			//		StartCoroutine(_Revive());
+			//	}
+			//}
+			//if(inputAttackL && canAction && isGrounded){
+			//	Attack(1);
+			//}
+			//if(inputAttackR && canAction && isGrounded){
+			//	Attack(2);
+			//}
+			//if(inputCastL && canAction && isGrounded && !isStrafing){
+			//	AttackKick(1);
+			//}
+			//if(inputCastR && canAction && isGrounded && !isStrafing){
+			//	AttackKick(2);
+			//}
+            ////if strafing
+            if ((Input.GetKey(KeyCode.LeftShift) || inputBlock > 0.1f) && canAction)
+            {
+                isStrafing = true;
+                animator.SetBool("Strafing", true);
+                //if (inputCastL && canAction && isGrounded)
+                //{
+                //    CastAttack(1);
+                //}
+                //if (inputCastR && canAction && isGrounded)
+                //{
+                //    CastAttack(2);
+                //}
+            }
+            else
+            {
+                isStrafing = false;
+                animator.SetBool("Strafing", false);
+            }
+            //Navmesh
+   //         if (Input.GetMouseButtonDown(0))
+			//{
+			//	if(useNavMesh)
+			//	{
+			//		RaycastHit hit;
+			//		if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100)) {
+			//			agent.destination = hit.point;
+			//		}
+			//	}
+			//}
 		}
 		else{
 			Debug.Log("ERROR: There is no animator for character.");
@@ -301,12 +305,12 @@ public class RPGCharacterControllerFREE : MonoBehaviour{
 				motion.Normalize();
 			}
 			if(canMove){
-				//set speed by walking / running
-				if(isStrafing){
-					newVelocity = motion * walkSpeed;
+                //set speed by walking / running
+                if (isStrafing){
+                    newVelocity = motion * walkSpeed;
 				}
 				else{
-					newVelocity = motion * runSpeed;
+                    newVelocity = motion * runSpeed;
 				}
 				//if rolling use rolling speed and direction
 				if(isRolling){

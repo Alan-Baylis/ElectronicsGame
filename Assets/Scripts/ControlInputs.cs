@@ -9,6 +9,8 @@ public class ControlInputs : MonoBehaviour {
     public GameObject prefab;
     public Canvas canvas;
 
+    //protected Animator animator;
+
     // Use this for initialization
     void Start () {
         canvas.enabled = false;
@@ -26,6 +28,20 @@ public class ControlInputs : MonoBehaviour {
                 canvas.enabled = true;
 
         }
+        //if(Input.GetKey(KeyCode.Z))
+        //{
+        //    transform.Translate(0, 0, 10 * Time.deltaTime);
+        //    animator.SetBool("Moving", true);
+        //}
+        //if (Input.GetKey(KeyCode.S))
+        //{
+        //    transform.Translate(0, 0, -10 * Time.deltaTime);
+        //    animator.SetBool("Moving", true);
+        //}
+        //else
+        //{
+        //    animator.SetBool("Moving", false);
+        //}
     }
 
     public void PutCoin(Vector2 mousePosition)

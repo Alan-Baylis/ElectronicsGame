@@ -8,7 +8,6 @@ public class PopulationGrid : MonoBehaviour/*, IPointerClickHandler*/
 {
 
     public GameObject[] prefab; // This is our prefab object that will be exposed in the inspector
-
     //public int numberToCreate; // number of objects to create. Exposed in inspector
 
     void Start()
@@ -38,7 +37,7 @@ public class PopulationGrid : MonoBehaviour/*, IPointerClickHandler*/
             newObj = (GameObject)Instantiate(prefab[i], transform);
 
             // Randomize the color of our image
-            newObj.GetComponent<Image>().color = Random.ColorHSV();
+            //newObj.GetComponent<Image>().color = Random.ColorHSV();
         }
 
     }
