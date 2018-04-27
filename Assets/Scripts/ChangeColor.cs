@@ -14,6 +14,8 @@ public class ChangeColor : MonoBehaviour {
             GetComponent<Renderer>().material.color = Color.blue;
         else if (color == "white")
             GetComponent<Renderer>().material.color = Color.white;
+        else if (color == "yellow")
+            GetComponent<Renderer>().material.color = Color.yellow;
     }
 	
 	// Update is called once per frame
