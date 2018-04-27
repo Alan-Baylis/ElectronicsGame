@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4027549621683676}
   - component: {fileID: 33018495450942128}
   - component: {fileID: 23071388953796584}
+  - component: {fileID: 114956033364256206}
   m_Layer: 0
   m_Name: Baterie2
-  m_TagString: Untagged
+  m_TagString: Component
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +37,7 @@ Transform:
   m_GameObject: {fileID: 1268367919240018}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 18.362122, y: 0.00000006321979, z: 24.339048}
-  m_LocalScale: {x: 0.19882777, y: 0.19882777, z: 0.19882777}
+  m_LocalScale: {x: 0.14, y: 0.14, z: 0.14}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -82,3 +83,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1268367919240018}
   m_Mesh: {fileID: 4300000, guid: 67a2c748231a06846974f92a7a17eb53, type: 3}
+--- !u!114 &114956033364256206
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1268367919240018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b525c87ea05b91a4bb5612433cd2579d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identifier: 1

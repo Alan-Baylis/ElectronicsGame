@@ -157,24 +157,24 @@ public class RPGCharacterControllerFREE : MonoBehaviour{
 			//	AttackKick(2);
 			//}
             ////if strafing
-            if ((Input.GetKey(KeyCode.LeftShift) || inputBlock > 0.1f) && canAction)
-            {
-                isStrafing = true;
-                animator.SetBool("Strafing", true);
-                //if (inputCastL && canAction && isGrounded)
-                //{
-                //    CastAttack(1);
-                //}
-                //if (inputCastR && canAction && isGrounded)
-                //{
-                //    CastAttack(2);
-                //}
-            }
-            else
-            {
-                isStrafing = false;
-                animator.SetBool("Strafing", false);
-            }
+            //if ((Input.GetKey(KeyCode.LeftShift) || inputBlock > 0.1f) && canAction)
+            //{
+            //    isStrafing = true;
+            //    animator.SetBool("Strafing", true);
+            //    //if (inputCastL && canAction && isGrounded)
+            //    //{
+            //    //    CastAttack(1);
+            //    //}
+            //    //if (inputCastR && canAction && isGrounded)
+            //    //{
+            //    //    CastAttack(2);
+            //    //}
+            //}
+            //else
+            //{
+            //    isStrafing = false;
+            //    animator.SetBool("Strafing", false);
+            //}
             //Navmesh
    //         if (Input.GetMouseButtonDown(0))
 			//{

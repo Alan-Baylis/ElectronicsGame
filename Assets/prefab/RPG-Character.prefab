@@ -1658,6 +1658,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1918459696012950, guid: ca3acc5def8876f4ab6f96610ee91dfc, type: 2}
   canvas: {fileID: 223925634528821314, guid: 71960ad02e38f9842902f9171d8277f3, type: 2}
+  cellSizeX: 0
+  cellSizeY: 0
 --- !u!114 &114324752576048586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1823,7 +1825,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1506460251284774}
-  m_Enabled: 0
+  m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 8
