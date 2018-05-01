@@ -9,7 +9,8 @@ public class ControlInputs : MonoBehaviour {
     public GameObject prefab;
     public Canvas canvas;
 
-    public MyComponents[,] componentMap;
+    //public MyComponents[,] componentMap;
+    public GameObject[,] componentMap;
     public int cellSizeX, cellSizeY;
 
     //protected Animator animator;
@@ -18,13 +19,16 @@ public class ControlInputs : MonoBehaviour {
     void Start () {
         canvas.enabled = false;
         //lui faire prendre la size du terrain
-        componentMap = new MyComponents[50,50];
+        //componentMap = new MyComponents[50,50];
+        //for (int i = 0; i < 50; i++) {
+        //    for (int j = 0; j < 50; j++)
+        //        componentMap[i, j] = MyComponents.Nothing;
+        //}
+        componentMap = new GameObject[50, 50];
         for (int i = 0; i < 50; i++)
         {
-            for (int j = 0; j < 50; j++)
-            {
-                componentMap[i, j] = MyComponents.Nothing;
-            }
+                for (int j = 0; j < 50; j++)
+                    componentMap[i, j] = null;
         }
         cellSizeX = 4;
         cellSizeY = 4;
@@ -48,20 +52,6 @@ public class ControlInputs : MonoBehaviour {
                 canvas.enabled = true;
 
         }
-        //if(Input.GetKey(KeyCode.Z))
-        //{
-        //    transform.Translate(0, 0, 10 * Time.deltaTime);
-        //    animator.SetBool("Moving", true);
-        //}
-        //if (Input.GetKey(KeyCode.S))
-        //{
-        //    transform.Translate(0, 0, -10 * Time.deltaTime);
-        //    animator.SetBool("Moving", true);
-        //}
-        //else
-        //{
-        //    animator.SetBool("Moving", false);
-        //}
     }
 
     public void PutComponent(Vector2 mousePosition)
@@ -74,16 +64,18 @@ public class ControlInputs : MonoBehaviour {
             GameObject obj = GameObject.Instantiate(prefab, v, Quaternion.identity);
             Vector3 mousePos = obj.transform.position;
 
-        if (componentMap[(int)System.Math.Floor(mousePos.x / 2), (int)System.Math.Floor(mousePos.z / 2)] == MyComponents.Nothing)
-        {
-            componentMap[(int)System.Math.Floor(mousePos.x / 2), (int)System.Math.Floor(mousePos.z / 2)] = prefab.GetComponent<IDIntoComponent>().identifier;
-            mousePos.x = (float)(2.0 * System.Math.Floor(mousePos.x / 2) + 1);
-            mousePos.z = (float)(2.0 * System.Math.Floor(mousePos.z / 2) + 1);
-            mousePos.y = obj.transform.position.y;
-            obj.transform.position = mousePos;
-        }
-        else
-            GameObject.Destroy(obj);
+            //if (componentMap[(int)System.Math.Floor(mousePos.x / 2), (int)System.Math.Floor(mousePos.z / 2)] == MyComponents.Nothing)
+            if (componentMap[(int)System.Math.Floor(mousePos.x / 2), (int)System.Math.Floor(mousePos.z / 2)] == null)
+            {
+                //componentMap[(int)System.Math.Floor(mousePos.x / 2), (int)System.Math.Floor(mousePos.z / 2)] = prefab.GetComponent<IDIntoComponent>().identifier;
+                componentMap[(int)System.Math.Floor(mousePos.x / 2), (int)System.Math.Floor(mousePos.z / 2)] = obj;
+                mousePos.x = (float)(2.0 * System.Math.Floor(mousePos.x / 2) + 1);
+                mousePos.z = (float)(2.0 * System.Math.Floor(mousePos.z / 2) + 1);
+                mousePos.y = obj.transform.position.y;
+                obj.transform.position = mousePos;
+            }
+            else
+                GameObject.Destroy(obj);
 
 
         //}
