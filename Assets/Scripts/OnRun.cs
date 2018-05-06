@@ -22,25 +22,12 @@ public class OnRun : MonoBehaviour {
     public void ActiveRunMode()
     {
         light.GetComponent<Light>().enabled = false;
-        //MyComponents[,] componentMap = gameObject.GetComponent<ControlInputs>().componentMap;
-        //int tempI, tempY;
-        //for (int i = 0; i < componentMap.GetLength(0); i++)
-        //{
-        //    for (int j = 0; j < componentMap.GetLength(1); j++)
-        //    {
-        //        if (componentMap[i, j] == MyComponents.Battery)
-        //        {
-        //            if (componentMap[i + 1, y] == )
-        //                foreach (Collider c in Physics.OverlapSphere(new Vector3(i * 2 + 1, 0.5f, j * 2 + 1), 1f))
-        //                {
-        //                    game
-        //                }
-        //        }
-        //    }
-        //}
 
         GameObject[,] componentMap = gameObject.GetComponent<ControlInputs>().componentMap;
-        int tempI, tempY;
+        int tempI=0, tempJ=0;
+        bool systemEnded = false;
+        bool firstTimeAfterBattery = true;
+        bool findOnlyNoComponent;
         for (int i = 0; i < componentMap.GetLength(0); i++)
         {
             for (int j = 0; j < componentMap.GetLength(1); j++)
@@ -49,53 +36,88 @@ public class OnRun : MonoBehaviour {
                 {
                     if (componentMap[i, j].GetComponent<IDIntoComponent>().identifier == MyComponents.Battery)
                     {
-                        if(componentMap[i-1,j] != null)
+                        while (!systemEnded)
                         {
-                            if (componentMap[i - 1, j] != null)
+                            findOnlyNoComponent = true;
+                            for (int k = 0; k < 4; k++)
                             {
-                                componentMap[i-1, j].GetComponent<Light>().enabled = true;
+                                switch (k)
+                                {
+                                    case 0:
+                                        if (firstTimeAfterBattery)
+                                        {
+                                            tempI = i - 1;
+                                            tempJ = j;
+                                        } else
+                                        {
+                                            tempI--;
+                                        }
+                                        break;
+                                    case 1:
+                                        if(firstTimeAfterBattery)
+                                        {
+                                            tempI = i + 1;
+                                            tempJ = j;
+                                        } else
+                                        {
+                                            tempI += 2;
+                                        }
+                                        break;
+                                    case 2:
+                                        if (firstTimeAfterBattery)
+                                        {
+                                            tempI = i;
+                                            tempJ = j - 1;
+                                        } else
+                                        {
+                                            tempI--;
+                                            tempJ--;
+                                        }
+                                        break;
+                                    case 3:
+                                        if (firstTimeAfterBattery)
+                                        {
+                                            tempI = i;
+                                            tempJ = j + 1;
+                                        } else
+                                        {
+                                            tempJ += 2;
+                                        }
+                                        break;
+                                }
+                                if (componentMap[tempI, tempJ] != null)
+                                {
+                                    findOnlyNoComponent = false;
+                                    if (componentMap[tempI, tempJ].GetComponent<IDIntoComponent>().identifier == MyComponents.wireVGND)
+                                    {
+                                        k = 3;
+                                    }
+                                    if (componentMap[tempI, tempJ].GetComponent<IDIntoComponent>().identifier == MyComponents.LED)
+                                    {
+                                        componentMap[tempI, tempJ].GetComponent<Light>().enabled = true;
+                                        systemEnded = true;
+                                    }
+                                    //componentMap[tempI, tempJ].GetComponent<Light>().enabled = true;
+                                    //break;
+                                }
+                                if (k == 3 && !firstTimeAfterBattery)
+                                {
+                                    tempJ--;
+                                }
+                                if(k==3 && findOnlyNoComponent)
+                                {
+                                    systemEnded = true;
+                                }
+
+
                             }
+                            firstTimeAfterBattery = false;
                         }
-                        if (componentMap[i + 1, j] != null)
-                        {
-                            if (componentMap[i + 1, j] != null)
-                            {
-                                componentMap[i + 1, j].GetComponent<Light>().enabled = true;
-                            }
-                        }
-                        if (componentMap[i, j-1] != null)
-                        {
-                            if (componentMap[i, j-1] != null)
-                            {
-                                componentMap[i, j-1].GetComponent<Light>().enabled = true;
-                            }
-                        }
-                        if (componentMap[i, j+1] != null)
-                        {
-                            if (componentMap[i, j+1] != null)
-                            {
-                                componentMap[i, j+1].GetComponent<Light>().enabled = true;
-                            }
-                        }
-                        //for (int k = -1; k < 2; k++)
-                        //{
-                        //    for (int l = 0; l < 2; l++)
-                        //    {
-                        //        if (componentMap[k, l] != null)
-                        //        {
-                        //            if (componentMap[k, l].GetComponent<IDIntoComponent>().identifier == MyComponents.LED)
-                        //            {
-                        //                componentMap[k, l].GetComponent<Light>().enabled = true;
-                        //                Debug.Log(k + " " + l + " : is a led !");
-                        //            }
-                        //            Debug.Log(k + " " + l + " : is not a led !");
-                        //        }
-                        //        Debug.Log(k + " " + l + " : is null !");
-                        //    }
-                        //}
                     }
                 }
             }
         }
     }
+
+
 }
