@@ -16,9 +16,14 @@ public class OnImageTouch : MonoBehaviour
 
     public void changeColor()
     {
-        GetComponent<Image>().color = Random.ColorHSV();
+        GetComponent<Image>().color = Color.white;
         character.GetComponent<ControlInputs>().prefab = prefab;
         //character.GetComponent<ChoseItem>().changeItem(gameObject.name);
+    }
+
+    public void resetColor()
+    {
+        GetComponent<Image>().color = Color.yellow;
     }
 
     // Update is called once per frame

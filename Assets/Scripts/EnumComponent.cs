@@ -9,6 +9,8 @@ public enum MyComponents {
     wireV = 2,
     wireGND = 3,
     wireVGND = 4,
-    LED = 5
+    LED = 5,
+    Transistor = 6,
+    Pont = 7
 
 };
