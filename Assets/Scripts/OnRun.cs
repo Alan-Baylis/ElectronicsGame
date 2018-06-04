@@ -17,7 +17,6 @@ public class OnRun : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log("1");
         if (arrayOfSystems.Count != 0)
         {
             var hh = gameObject.GetComponent<ControlInputs>().componentMap;
@@ -26,38 +25,51 @@ public class OnRun : MonoBehaviour {
                 //We read the j th system
                 for(int j=0; j<arrayOfSystems[i].Count; j+=2)
                 {
-                    Debug.Log("j : " + j + " = " + arrayOfSystems[i][j] + " - " + arrayOfSystems[i][j+1] + " is " + hh[arrayOfSystems[i][j], arrayOfSystems[i][j+1]]);
+                    //Debug.Log("j : " + j + " = " + arrayOfSystems[i][j] + " - " + arrayOfSystems[i][j+1] + " is " + hh[arrayOfSystems[i][j], arrayOfSystems[i][j+1]]);
                     //if the wire = null
                     if (hh[arrayOfSystems[i][j], arrayOfSystems[i][j + 1]] == null)
                     {
-                        Debug.Log("1");
-                        //Debug.Log(hh[arrayOfSystems[i][arrayOfSystems[i].Count - 4], arrayOfSystems[i][arrayOfSystems[i].Count - 3]]);
-                        //Debug.Log(arrayOfSystems[i][arrayOfSystems[i].Count - 4] + "   " + arrayOfSystems[i][arrayOfSystems[i].Count - 3]);
-                        //Debug.Log((arrayOfSystems[i].Count - 2) + "        " + (arrayOfSystems[i].Count - 1));
-                        //if the last component (the one who have an effect) isn't null
+                        //for with all the system
                         for (int h = 0; h < arrayOfSystems[i].Count; h += 2)
                         {
+                            //if the wire find isn't null
                             if (hh[arrayOfSystems[i][h], arrayOfSystems[i][h+1]] != null)
                             {
+                                //if it's a wire VGND
                                 if(hh[arrayOfSystems[i][h], arrayOfSystems[i][h+1]].GetComponent<IDIntoComponent>().identifier == MyComponents.wireVGND)
                                 {
                                     //if the last one isn't null
                                     if (hh[arrayOfSystems[i][arrayOfSystems[i].Count - 2], arrayOfSystems[i][arrayOfSystems[i].Count - 1]] != null)
                                     {
-                                        Debug.Log("2");
-                                        //Debug.Log(hh[arrayOfSystems[i][arrayOfSystems[i].Count - 2], arrayOfSystems[i][arrayOfSystems[i].Count - 1]]);
                                         //if it's a LED
                                         if (hh[arrayOfSystems[i][arrayOfSystems[i].Count - 2], arrayOfSystems[i][arrayOfSystems[i].Count - 1]].GetComponent<IDIntoComponent>().identifier == MyComponents.LED)
                                         {
-                                            Debug.Log("3");
                                             gameObject.GetComponent<ControlInputs>().componentMap[arrayOfSystems[i][arrayOfSystems[i].Count - 2], arrayOfSystems[i][arrayOfSystems[i].Count - 1]].GetComponent<Light>().enabled = false;
                                         }
                                     }
                                 }
+                                //if it's a wire V and GND
                                 else
                                 {
                                     findAndSwithLEDInList(arrayOfSystems[i], false);
+                                    arrayOfSystems.Remove(arrayOfSystems[i]);
+                                    return;
                                 }
+                            }
+                        }
+                    }
+                    //If hh i and j isn't null
+                    else
+                    {
+                        //if it's a button
+                        if (hh[arrayOfSystems[i][j], arrayOfSystems[i][j + 1]].GetComponent<IDIntoComponent>().identifier == MyComponents.Button)
+                        {
+                            if(hh[arrayOfSystems[i][j], arrayOfSystems[i][j + 1]].GetComponent<SwitchOnButton>().getIsSwitchedOn())
+                            {
+                                findAndSwithLEDInList(arrayOfSystems[i], true);
+                            } else
+                            {
+                                findAndSwithLEDInList(arrayOfSystems[i], false);
                             }
                         }
                     }
@@ -66,10 +78,7 @@ public class OnRun : MonoBehaviour {
         }
 	}
 
-    public void ActiveRunMode()
-    {
-        //light.GetComponent<Light>().enabled = false;
-
+    public void ActiveRunMode() {
         GameObject[,] componentMap = gameObject.GetComponent<ControlInputs>().componentMap;
         int tempI = 0, tempJ = 0; //position of the search
         bool systemEnded = false; //if the system ended
@@ -77,17 +86,19 @@ public class OnRun : MonoBehaviour {
         bool findOnlyNoComponent; //if he can't find a component
         bool isWireVGND = false; // if the wire found is V+GND or VGND
         bool isComponentOtherThanWireFound = false;  //if he find a component that isn't a wire (led,...)
-        List<int> arrayOfActualSystem = new List<int>();
+        List<int> arrayOfActualSystem = new List<int>(); //the actual system that's being construct
+        List<int> arrayOfBridge = new List<int>(); // the array that contain the bridge (i,j,indice)
         for (int i = 0; i < componentMap.GetLength(0); i++)
         {
             for (int j = 0; j < componentMap.GetLength(1); j++)
             {
-                //arrayOfActualSystem.Clear();
                 if (componentMap[i, j] != null)
                 {
                     if (componentMap[i, j].GetComponent<IDIntoComponent>().identifier == MyComponents.Battery)
                     {
+                        arrayOfActualSystem = new List<int>();
                         firstTimeAfterBattery = true;
+                        systemEnded = false;
                         while (!systemEnded)
                         {
                             findOnlyNoComponent = true;
@@ -193,6 +204,53 @@ public class OnRun : MonoBehaviour {
                                                 //}
                                             }
                                         }
+                                        else if (componentMap[tempI, tempJ].GetComponent<IDIntoComponent>().identifier == MyComponents.Button)
+                                        {
+                                            findOnlyNoComponent = false;
+                                            k = 3;
+                                            arrayOfActualSystem.Add(tempI);
+                                            arrayOfActualSystem.Add(tempJ);
+                                        }
+                                        //else if (componentMap[tempI, tempJ].GetComponent<IDIntoComponent>().identifier == MyComponents.BridgeOpen)
+                                        //{
+
+                                        //    if (firstTimeAfterBattery)
+                                        //    {
+                                        //        findOnlyNoComponent = false;
+                                        //        systemEnded = true;
+                                        //        k = 3;
+                                        //    }
+                                        //    else if (!isWireVGND)
+                                        //    {
+                                        //        findOnlyNoComponent = false;
+                                        //        k = 3;
+                                        //        arrayOfActualSystem.Add(tempI);
+                                        //        arrayOfActualSystem.Add(tempJ);
+                                        //        arrayOfBridge.Add(tempI);
+                                        //        arrayOfBridge.Add(tempJ);
+                                        //        arrayOfBridge.Add(arrayOfActualSystem.Count);
+                                        //    }
+                                        //}
+                                        //else if (componentMap[tempI, tempJ].GetComponent<IDIntoComponent>().identifier == MyComponents.BridgeClose)
+                                        //{
+
+                                        //    if (firstTimeAfterBattery)
+                                        //    {
+                                        //        findOnlyNoComponent = false;
+                                        //        systemEnded = true;
+                                        //        k = 3;
+                                        //    }
+                                        //    else if (!isWireVGND)
+                                        //    {
+                                        //        findOnlyNoComponent = false;
+                                        //        k = 3;
+                                        //        arrayOfActualSystem.Add(tempI);
+                                        //        arrayOfActualSystem.Add(tempJ);
+                                        //        arrayOfBridge.Add(tempI);
+                                        //        arrayOfBridge.Add(tempJ);
+                                        //        arrayOfBridge.Add(arrayOfActualSystem.Count);
+                                        //    }
+                                        //}
                                         else if (componentMap[tempI, tempJ].GetComponent<IDIntoComponent>().identifier == MyComponents.LED)
                                         {
                                             findOnlyNoComponent = false;

@@ -8,6 +8,7 @@ public class ControlInputs : MonoBehaviour {
     RaycastHit hit;
     public GameObject prefab;
     public Canvas canvas;
+    public Canvas menu;
 
     //public MyComponents[,] componentMap;
     public GameObject[,] componentMap;
@@ -18,6 +19,7 @@ public class ControlInputs : MonoBehaviour {
     // Use this for initialization
     void Start () {
         canvas.enabled = false;
+        menu.enabled = false;
         //lui faire prendre la size du terrain
         //componentMap = new MyComponents[50,50];
         //for (int i = 0; i < 50; i++) {
@@ -40,6 +42,15 @@ public class ControlInputs : MonoBehaviour {
         {
             DeleteComponent(Input.mousePosition);
         }
+        else if (Input.GetKey(KeyCode.R) && Input.GetButtonDown("Fire1"))
+        {
+            RaycastHit hit = RayFromCamera(Input.mousePosition, 1000.0f);
+            Vector3 v = hit.point;
+            if (hit.transform.tag == "Component")
+            {
+                hit.transform.Rotate(hit.transform.rotation.x, hit.transform.rotation.y + 90, hit.transform.rotation.z);
+            }
+        }
         else if (Input.GetButtonDown("Fire1"))
         {
             PutComponent(Input.mousePosition);
@@ -50,8 +61,15 @@ public class ControlInputs : MonoBehaviour {
                 canvas.enabled = false;
             else
                 canvas.enabled = true;
-
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (menu.enabled)
+                menu.enabled = false;
+            else
+                menu.enabled = true;
+        }
+        
     }
 
     public void PutComponent(Vector2 mousePosition)

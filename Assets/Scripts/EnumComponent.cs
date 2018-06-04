@@ -11,6 +11,8 @@ public enum MyComponents {
     wireVGND = 4,
     LED = 5,
     Transistor = 6,
-    Pont = 7
+    BridgeOpen = 7,
+    BridgeClose = 8,
+    Button
 
 };
